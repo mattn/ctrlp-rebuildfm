@@ -76,7 +76,11 @@ function! ctrlp#rebuildfm#accept(mode, str)
     let dom = webapi#html#parse('<div>' . item.content . '</div>')
     echohl Title | echo item.title | echohl None
     echo dom.value()
-    call system("mplayer -really-quiet -msglevel global=4 " . shellescape(found.enclosure[0]))
+    if has("gui_running")
+      silent exec "!mplayer -really-quiet -msglevel global=4 " . shellescape(found.enclosure[0])
+    else
+      call system("mplayer -really-quiet -msglevel global=4 " . shellescape(found.enclosure[0]))
+    endif
   endif
 endfunction
 
